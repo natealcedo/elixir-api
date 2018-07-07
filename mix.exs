@@ -40,6 +40,7 @@ defmodule MyApp.Mixfile do
       {:postgrex, ">= 0.0.0"},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
+      {:corsica, "~> 1.0"},
       {:mix_test_watch, "~> 0.6", only: :dev, runtime: false}
     ]
   end
