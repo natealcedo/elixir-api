@@ -20,6 +20,12 @@ defmodule MyApp.Auth.User do
     |> put_password_hash()
   end
 
+  def registration_changeset(user, attrs) do
+    user
+    |> changeset(attrs)
+    |> change(is_active: false)
+  end
+
   defp put_password_hash(
          %Ecto.Changeset{
            valid?: true,
