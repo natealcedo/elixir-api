@@ -10,11 +10,13 @@ defmodule MyAppWeb.UserController do
     case Auth.authenticate_user(email, password) do
       {:ok, user} ->
         conn
+        |> put_session(:user_id, user.id)
         |> put_status(200)
         |> render("sign_in.json", user: user)
 
       {:error, message} ->
         conn
+        |> delete_session(:user_id)
         |> put_status(401)
         |> render(MyAppWeb.ErrorView, "401.json", message: message)
     end
@@ -25,7 +27,7 @@ defmodule MyAppWeb.UserController do
     render(conn, "index.json", users: users)
   end
 
-  def create(conn, %{"user" => user_params}) do
+  def create(conn, user_params) do
     with {:ok, %User{} = user} <- Auth.create_user(user_params) do
       conn
       |> put_status(:created)
