@@ -17,4 +17,8 @@ defmodule MyAppWeb.ErrorView do
   def render("401.json", %{message: message}) do
     %{errors: %{detail: message}}
   end
+
+  def render("404.json", _) do
+    %{errors: %{detail: "The resource doesn't exist"}}
+  end
 end
