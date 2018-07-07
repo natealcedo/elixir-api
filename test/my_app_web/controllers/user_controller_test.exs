@@ -7,11 +7,6 @@ defmodule MyAppWeb.UserControllerTest do
 
   @create_attrs %{email: "email_address", password: "some password"}
   @current_user_attrs %{email: "another email", password: "some password"}
-  @update_attrs %{
-    email: "some updated email",
-    is_active: false,
-    password: "some updated password"
-  }
   @invalid_attrs %{email: nil, is_active: nil, password: nil}
 
   def fixture(:user) do
@@ -27,6 +22,28 @@ defmodule MyAppWeb.UserControllerTest do
   setup %{conn: conn} do
     {:ok, conn: conn, user: user} = setup_current_user(conn)
     {:ok, conn: put_req_header(conn, "accept", "application/json"), user: user}
+  end
+
+  describe "sign_in user" do
+    test "renders user when user credentials are good", %{conn: conn, user: user} do
+      conn =
+        post(conn, user_path(conn, :sign_in), %{
+          email: user.email,
+          password: @current_user_attrs.password
+        })
+
+      assert json_response(conn, 200)["data"] == %{
+               "user" => %{
+                 "id" => user.id,
+                 "email" => user.email
+               }
+             }
+    end
+
+    test "renders errors when user credentials are bad", %{conn: conn} do
+      conn = post(conn, user_path(conn, :sign_in, %{email: "junk", password: ""}))
+      assert json_response(conn, 401)["errors"] == %{"detail" => "Wrong email or password"}
+    end
   end
 
   describe "index" do

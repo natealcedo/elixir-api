@@ -19,6 +19,13 @@ defmodule MyApp.AuthTest do
       user
     end
 
+    test "authenticate_user/2 authenticates the user" do
+      user = user_fixture()
+      assert {:error, "Wrong email or password"} = Auth.authenticate_user("wrong", "")
+      assert {:ok, authenticated_user} = Auth.authenticate_user(user.email, @valid_attrs.password)
+      assert %User{user | password: nil} == authenticated_user
+    end
+
     test "list_users/0 returns all users" do
       user = user_fixture()
       assert Auth.list_users() == [%User{user | password: nil}]
