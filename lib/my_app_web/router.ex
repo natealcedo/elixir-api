@@ -14,10 +14,32 @@ defmodule MyAppWeb.Router do
     )
   end
 
+  pipeline :auth do
+    plug(:ensure_authenticated)
+  end
+
   scope "/api", MyAppWeb do
     pipe_through(:api)
+    post("/users/sign_in", UserController, :sign_in)
+    resources("/users", UserController, only: [:create])
+  end
+
+  scope "/api", MyAppWeb do
+    pipe_through([:api, :auth])
 
     resources("/users", UserController, except: [:new, :edit])
-    post("/users/sign_in", UserController, :sign_in)
+  end
+
+  defp ensure_authenticated(conn, _opts) do
+    user_id = get_session(conn, :user_id)
+
+    if user_id do
+      conn
+    else
+      conn
+      |> put_status(403)
+      |> render(MyAppWeb.ErrorView, "401.json", message: "Unauthenticated user")
+      |> halt()
+    end
   end
 end
