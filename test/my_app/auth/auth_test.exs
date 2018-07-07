@@ -32,7 +32,7 @@ defmodule MyApp.AuthTest do
     test "create_user/1 with valid data creates a user" do
       assert {:ok, %User{} = user} = Auth.create_user(@valid_attrs)
       assert user.email == "some email"
-      assert user.is_active == true
+      assert user.is_active == false
     end
 
     test "create_user/1 with invalid data returns error changeset" do
