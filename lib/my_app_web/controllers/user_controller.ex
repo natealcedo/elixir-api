@@ -24,6 +24,7 @@ defmodule MyAppWeb.UserController do
 
   def index(conn, _params) do
     users = Auth.list_users()
+    IO.inspect(MyApp.Auth.Guardian.Plug.current_resource(conn))
     render(conn, "index.json", users: users)
   end
 

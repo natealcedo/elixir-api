@@ -34,14 +34,18 @@ defmodule MyApp.Mixfile do
   defp deps do
     [
       {:bcrypt_elixir, "~> 1.0"},
+      {:cowboy, "~> 1.0"},
+      {:corsica, "~> 1.0"},
+      {:gettext, "~> 0.11"},
+      {:guardian, "~> 1.0"},
+      {:comeonin, "~> 4.1"},
+      {:mix_test_watch, "~> 0.6", only: :dev, runtime: false},
       {:phoenix, "~> 1.3.3"},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.2"},
       {:postgrex, ">= 0.0.0"},
-      {:gettext, "~> 0.11"},
-      {:cowboy, "~> 1.0"},
-      {:corsica, "~> 1.0"},
-      {:mix_test_watch, "~> 0.6", only: :dev, runtime: false}
+      {:ueberauth, "~> 0.5.0"},
+      {:ueberauth_identity, "~> 0.2.3"}
     ]
   end
 

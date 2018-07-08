@@ -2,6 +2,8 @@ defmodule MyApp.Auth.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Comeonin.Bcrypt
+
   schema "users" do
     field(:email, :string)
     field(:is_active, :boolean, default: false)
@@ -32,7 +34,7 @@ defmodule MyApp.Auth.User do
            changes: %{password: password}
          } = changeset
        ) do
-    change(changeset, password_hash: Bcrypt.hash_pwd_salt(password))
+    change(changeset, password_hash: Bcrypt.hashpwsalt(password))
   end
 
   defp put_password_hash(changeset) do

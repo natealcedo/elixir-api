@@ -108,7 +108,7 @@ defmodule MyApp.Auth do
   end
 
   defp verify_password(nil, _) do
-    Bcrypt.no_user_verify()
+    Comeonin.Bcrypt.dummy_checkpw()
     {:error, "Wrong email or password"}
   end
 
